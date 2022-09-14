@@ -4,8 +4,8 @@ import fastifyView from "@fastify/view";
 import handlebars from "handlebars";
 import mongoose from "mongoose";
 import noteRoutes from "./routes/noteRoutes.js";
-import contentRangeHook from './hooks/contentRangeHook.js'
-import serverless from 'serverless-http';
+import contentRangeHook from "./hooks/contentRangeHook.js";
+import serverless from "serverless-http";
 
 let server = fastify({ logger: true });
 
@@ -23,7 +23,7 @@ try {
   console.error(e);
 }
 
-server.addHook('preHandler', contentRangeHook);
+server.addHook("preHandler", contentRangeHook);
 
 noteRoutes(server);
 
@@ -31,9 +31,10 @@ server.get("/users", function (req, reply) {
   reply.view("/views/layouts/main.hbs", { text: "text" });
 });
 
-// server.listen({ port: 3000 }, (err) => {
-//   if (err) throw err;
-// });
+if (esMain(import.meta)) {
+  server.listen({ port: 3000 }, (err) => {
+    if (err) throw err;
+  });
+}
 
-export default server
-
+export default server;
