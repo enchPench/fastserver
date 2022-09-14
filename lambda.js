@@ -1,5 +1,5 @@
 import awsLambdaFastify from '@fastify/aws-lambda';
-import server from './main.js';
+import server from './server.js';
 
 const proxy = awsLambdaFastify(server())
 export default proxy;
