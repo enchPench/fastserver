@@ -4,6 +4,8 @@ import fastifyView from "@fastify/view";
 import handlebars from "handlebars";
 import mongoose from "mongoose";
 import noteRoutes from "./routes/noteRoutes.js";
+import contentRangeHook from './hooks/contentRangeHook.js'
+import serverless from 'serverless-http';
 
 let server = fastify({ logger: true });
 
@@ -21,23 +23,17 @@ try {
   console.error(e);
 }
 
+server.addHook('preHandler', contentRangeHook);
+
 noteRoutes(server);
 
 server.get("/users", function (req, reply) {
-  // Or this.mongo.client.db('mydb').collection('users')
-  //const users = this.mongo.db.collection("users1");
-  // if the id is an ObjectId format, you need to create a new ObjectId
-  //   const id = this.mongo.ObjectId(req.params.id);
-  //   users.findOne({ id }, (err, user) => {
-  //     if (err) {
-  //       reply.send(err);
-  //       return;
-  //     }
-  //reply.send(users);
-  //});
   reply.view("/views/layouts/main.hbs", { text: "text" });
 });
 
-server.listen({ port: 3000 }, (err) => {
-  if (err) throw err;
-});
+// server.listen({ port: 3000 }, (err) => {
+//   if (err) throw err;
+// });
+
+export default server
+
