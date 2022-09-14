@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import noteRoutes from "./routes/noteRoutes.js";
 import contentRangeHook from "./hooks/contentRangeHook.js";
 import serverless from "serverless-http";
-
+import esMain from "es-main";
 let server = fastify({ logger: true });
 
 server.register(fastifyView, {
@@ -31,10 +31,6 @@ server.get("/users", function (req, reply) {
   reply.view("/views/layouts/main.hbs", { text: "text" });
 });
 
-if (esMain(import.meta)) {
-  server.listen({ port: 3000 }, (err) => {
-    if (err) throw err;
-  });
-}
-
-export default server;
+server.listen({ port: 3000 }, (err) => {
+  if (err) throw err;
+});
